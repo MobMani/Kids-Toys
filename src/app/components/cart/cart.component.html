@@ -1,0 +1,72 @@
+<section class="page-shell">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <h2>Your cart</h2>
+        <p>Review your picks before checkout.</p>
+      </div>
+    </div>
+
+    @if (cart.items().length === 0) {
+      <div class="empty-cart card">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6" stroke="#FF6FA0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="21" r="1.4" fill="#FF6FA0"/>
+          <circle cx="18" cy="21" r="1.4" fill="#FF6FA0"/>
+        </svg>
+        <h3>Your cart is empty</h3>
+        <p>Nothing here yet — go find a toy worth jumping for.</p>
+        <a routerLink="/" class="btn btn-primary">Start shopping</a>
+      </div>
+    } @else {
+      <div class="cart-layout">
+        <ul class="cart-list">
+          @for (item of cart.items(); track item.product.id) {
+            <li class="cart-row">
+              <div class="cart-swatch" [style.background]="item.product.colorway + '26'">
+                <span [style.color]="item.product.accent" class="swatch-letter">{{ item.product.name.charAt(0) }}</span>
+              </div>
+              <div class="cart-info">
+                <h4>{{ item.product.name }}</h4>
+                <span class="cart-meta">{{ item.product.category }} · Ages {{ item.product.ageRange }}</span>
+              </div>
+              <div class="qty-control">
+                <button type="button" (click)="decrease(item.product.id, item.quantity)" aria-label="Decrease quantity">−</button>
+                <span>{{ item.quantity }}</span>
+                <button
+                  type="button"
+                  (click)="increase(item.product.id, item.quantity, item.product.stock)"
+                  [disabled]="item.quantity >= item.product.stock"
+                  aria-label="Increase quantity"
+                >+</button>
+              </div>
+              <span class="line-price">₹{{ (item.product.price * item.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
+              <button
+  type="button"
+  class="remove-btn"
+  (click)="cart.remove(item.product.id)"
+  [attr.aria-label]="'Remove ' + item.product.name">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </li>
+          }
+        </ul>
+
+        <aside class="summary card">
+          <h3>Order summary</h3>
+          <div class="summary-row"><span>Subtotal</span><span>₹{{ cart.subtotal().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>{{ shipping() === 0 ? 'Free' : '₹' + shipping().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
+          </div>
+          @if (shipping() > 0) {
+            <p class="ship-hint">Add ₹{{ (50 - cart.subtotal()).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} more for free shipping.</p>
+          }
+          <div class="summary-row summary-total"><span>Total</span><span>₹{{ total().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
+          <button type="button" class="btn btn-primary btn-block" (click)="goToCheckout()">Proceed to checkout</button>
+          <a routerLink="/" class="continue-link">Continue shopping</a>
+        </aside>
+      </div>
+    }
+  </div>
+</section>

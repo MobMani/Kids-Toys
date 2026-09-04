@@ -1,0 +1,57 @@
+<section class="page-shell">
+  <div class="container">
+    @if (order(); as o) {
+      <div class="section-heading">
+        <div>
+          <h2>Order {{ o.id }}</h2>
+          <p>Placed {{ placedDate(o.placedAt) }}</p>
+        </div>
+        <span class="badge badge-sky">{{ o.status }}</span>
+      </div>
+
+      <div class="details-layout">
+        <div class="card items-card">
+          <h3>Items</h3>
+          <ul class="item-list">
+            @for (item of o.items; track item.product.id) {
+              <li>
+                <div class="item-swatch" [style.background]="item.product.colorway + '26'">
+                  <span [style.color]="item.product.accent">{{ item.product.name.charAt(0) }}</span>
+                </div>
+                <div class="item-info">
+                  <h4>{{ item.product.name }}</h4>
+                  <span>Qty {{ item.quantity }} · ₹{{ item.product.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} each</span>
+                </div>
+                <span class="item-total">₹{{ (item.product.price * item.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
+              </li>
+            }
+          </ul>
+
+          <div class="totals">
+            <div class="summary-row"><span>Subtotal</span><span>₹{{ o.subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
+            <div class="summary-row"><span>Shipping</span><span>{{ o.shipping === 0 ? 'Free' : '₹' + o.shipping.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
+            <div class="summary-row summary-total"><span>Total</span><span>₹{{ o.total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
+          </div>
+        </div>
+
+        <aside class="card side-card">
+          <h3>Shipping to</h3>
+          <p class="address-block">
+            {{ o.address.fullName }}<br/>
+            {{ o.address.line1 }}<br/>
+            {{ o.address.city }}, {{ o.address.state }} {{ o.address.postalCode }}<br/>
+            {{ o.address.phone }}
+          </p>
+          <h3>Payment</h3>
+          <p>{{ o.paymentMethod }}</p>
+          <a [routerLink]="['/orders', o.id, 'tracking']" class="btn btn-primary btn-block">Track order</a>
+        </aside>
+      </div>
+    } @else {
+      <div class="card empty-note">
+        <p>We couldn't find that order in this browser session.</p>
+        <a routerLink="/" class="btn btn-primary">Back to shop</a>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,149 @@
+<section class="page-shell">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <h2>Checkout</h2>
+        <p>Almost there — where should we send the box?</p>
+      </div>
+    </div>
+
+    @if (cart.items().length === 0) {
+      <div class="card empty-note">
+        <p>Your cart is empty, so there's nothing to check out yet.</p>
+        <a routerLink="/" class="btn btn-primary">Back to shop</a>
+      </div>
+    } @else {
+      <div class="checkout-layout">
+        <div class="checkout-forms">
+          <form [formGroup]="addressForm" class="card form-block">
+            <h3>Shipping address</h3>
+            <div class="field">
+              <label for="fullName">Full name</label>
+              <input id="fullName" type="text" formControlName="fullName"
+                [class.invalid]="addressForm.controls.fullName.invalid && addressForm.controls.fullName.touched" />
+              @if (addressForm.controls.fullName.invalid && addressForm.controls.fullName.touched) {
+                <small class="error">Enter the recipient's name.</small>
+              }
+            </div>
+            <div class="field">
+              <label for="line1">Street address</label>
+              <input id="line1" type="text" formControlName="line1"
+                [class.invalid]="addressForm.controls.line1.invalid && addressForm.controls.line1.touched" />
+              @if (addressForm.controls.line1.invalid && addressForm.controls.line1.touched) {
+                <small class="error">Enter a street address.</small>
+              }
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="city">City</label>
+                <input id="city" type="text" formControlName="city"
+                  [class.invalid]="addressForm.controls.city.invalid && addressForm.controls.city.touched" />
+                @if (addressForm.controls.city.invalid && addressForm.controls.city.touched) {
+                  <small class="error">Required.</small>
+                }
+              </div>
+              <div class="field">
+                <label for="state">State / region</label>
+                <input id="state" type="text" formControlName="state"
+                  [class.invalid]="addressForm.controls.state.invalid && addressForm.controls.state.touched" />
+                @if (addressForm.controls.state.invalid && addressForm.controls.state.touched) {
+                  <small class="error">Required.</small>
+                }
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="postalCode">Postal code</label>
+                <input id="postalCode" type="text" formControlName="postalCode"
+                  [class.invalid]="addressForm.controls.postalCode.invalid && addressForm.controls.postalCode.touched" />
+                @if (addressForm.controls.postalCode.invalid && addressForm.controls.postalCode.touched) {
+                  <small class="error">Enter a valid postal code.</small>
+                }
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" type="tel" formControlName="phone"
+                  [class.invalid]="addressForm.controls.phone.invalid && addressForm.controls.phone.touched" />
+                @if (addressForm.controls.phone.invalid && addressForm.controls.phone.touched) {
+                  <small class="error">Enter a valid phone number.</small>
+                }
+              </div>
+            </div>
+          </form>
+
+          <form [formGroup]="paymentForm" class="card form-block">
+            <h3>Payment method</h3>
+            <div class="method-toggle">
+              <label class="method-option" [class.method-active]="isCard">
+                <input type="radio" formControlName="method" value="card" />
+                Card
+              </label>
+              <label class="method-option" [class.method-active]="!isCard">
+                <input type="radio" formControlName="method" value="cod" />
+                Cash on delivery
+              </label>
+            </div>
+
+            @if (isCard) {
+              <div class="field">
+                <label for="cardName">Name on card</label>
+                <input id="cardName" type="text" formControlName="cardName"
+                  [class.invalid]="paymentForm.controls.cardName.invalid && paymentForm.controls.cardName.touched" />
+                @if (paymentForm.controls.cardName.invalid && paymentForm.controls.cardName.touched) {
+                  <small class="error">Required.</small>
+                }
+              </div>
+              <div class="field">
+                <label for="cardNumber">Card number</label>
+                <input id="cardNumber" type="text" inputmode="numeric" formControlName="cardNumber" placeholder="4242 4242 4242 4242"
+                  [class.invalid]="paymentForm.controls.cardNumber.invalid && paymentForm.controls.cardNumber.touched" />
+                @if (paymentForm.controls.cardNumber.invalid && paymentForm.controls.cardNumber.touched) {
+                  <small class="error">Enter a valid card number (13–19 digits).</small>
+                }
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="expiry">Expiry (MM/YY)</label>
+                  <input id="expiry" type="text" formControlName="expiry" placeholder="09/28"
+                    [class.invalid]="paymentForm.controls.expiry.invalid && paymentForm.controls.expiry.touched" />
+                  @if (paymentForm.controls.expiry.invalid && paymentForm.controls.expiry.touched) {
+                    <small class="error">Use MM/YY format.</small>
+                  }
+                </div>
+                <div class="field">
+                  <label for="cvv">CVV</label>
+                  <input id="cvv" type="text" inputmode="numeric" formControlName="cvv" placeholder="123"
+                    [class.invalid]="paymentForm.controls.cvv.invalid && paymentForm.controls.cvv.touched" />
+                  @if (paymentForm.controls.cvv.invalid && paymentForm.controls.cvv.touched) {
+                    <small class="error">3–4 digits.</small>
+                  }
+                </div>
+              </div>
+              <p class="demo-note">This is a demo store — no real payment is processed.</p>
+            } @else {
+              <p class="demo-note">Pay in cash when your box arrives at the door.</p>
+            }
+          </form>
+        </div>
+
+        <aside class="summary card">
+          <h3>Order summary</h3>
+          <ul class="summary-items">
+            @for (item of cart.items(); track item.product.id) {
+              <li>
+                <span>{{ item.product.name }} × {{ item.quantity }}</span>
+                <span>₹{{ (item.product.price * item.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
+              </li>
+            }
+          </ul>
+          <div class="summary-row"><span>Subtotal</span><span>₹{{ cart.subtotal().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
+          <div class="summary-row"><span>Shipping</span><span>{{ shipping() === 0 ? 'Free' : '₹' + shipping().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
+          <div class="summary-row summary-total"><span>Total</span><span>₹{{ total().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
+          <button type="button" class="btn btn-primary btn-block" [disabled]="placing()" (click)="placeOrder()">
+            {{ placing() ? 'Placing order…' : 'Place order' }}
+          </button>
+        </aside>
+      </div>
+    }
+  </div>
+</section>

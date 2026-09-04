@@ -1,0 +1,128 @@
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1>Toys worth <span class="hero-underline">jumping</span> for.</h1>
+      <p class="hero-sub">
+        We test every hinge, wheel and seam ourselves before it reaches your doorstep —
+        chunky building sets, honest plush, and outdoor gear built for real backyards.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#shop">Browse the shop</a>
+        <div class="hero-stat">
+          <strong>9,400+</strong>
+          <span>toy boxes delivered</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 380 340" class="hero-svg">
+        <ellipse cx="190" cy="300" rx="150" ry="24" fill="#2A2148" opacity="0.08"/>
+        <rect x="70" y="150" width="240" height="130" rx="20" fill="#FFC53D"/>
+        <rect x="70" y="150" width="240" height="34" rx="17" fill="#8A6300" opacity="0.18"/>
+        <circle cx="120" cy="120" r="52" fill="#FF6FA0"/>
+        <circle cx="120" cy="120" r="52" fill="#fff" opacity="0.08"/>
+        <rect x="205" y="70" width="95" height="95" rx="22" fill="#4FAFE0"/>
+        <path d="M205 96h95M228 70v95" stroke="#fff" stroke-opacity="0.25" stroke-width="8"/>
+        <circle cx="290" cy="205" r="34" fill="#2FBF9F"/>
+        <circle cx="95" cy="220" r="26" fill="#FF7A5A"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="promo-strip" aria-label="New product offers">
+  <div class="promo-track">
+    @for (banner of promoBanners; track banner.title) {
+      <article class="promo-item">
+        <img [src]="banner.imageUrl" [alt]="banner.subtitle" />
+        <div class="promo-copy">
+          <span>{{ banner.title }}</span>
+          <strong>{{ banner.subtitle }}</strong>
+          <small>{{ banner.offer }}</small>
+        </div>
+      </article>
+    }
+    @for (banner of promoBanners; track banner.title) {
+      <article class="promo-item" aria-hidden="true">
+        <img [src]="banner.imageUrl" [alt]="banner.subtitle" />
+        <div class="promo-copy">
+          <span>{{ banner.title }}</span>
+          <strong>{{ banner.subtitle }}</strong>
+          <small>{{ banner.offer }}</small>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="page-shell" id="shop">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <h2>Shop the collection</h2>
+        <p>Filter by what your kid is into this week — it changes fast, we know.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <label class="search-box" aria-label="Search products">
+        <span aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          [value]="searchTerm()"
+          (input)="setSearchTerm($any($event.target).value)"
+          placeholder="Search toys, categories, or descriptions"
+        />
+      </label>
+
+      @if (auth.currentUser(); as user) {
+        @if (user.role === 'admin' || user.email === 'admin@tumbletoybox.com') {
+          <a class="btn btn-secondary btn-small" routerLink="/upload-products">Upload products</a>
+        }
+      }
+    </div>
+
+    <div class="category-row" role="tablist" aria-label="Filter by category">
+      <button
+        type="button"
+        class="chip"
+        [class.chip-active]="activeCategory() === 'All'"
+        (click)="setCategory('All')"
+      >All toys</button>
+      @for (cat of categories; track cat) {
+        <button
+          type="button"
+          class="chip"
+          [class.chip-active]="activeCategory() === cat"
+          (click)="setCategory(cat)"
+        >{{ cat }}</button>
+      }
+    </div>
+
+    @if (visibleProducts().length === 0) {
+      <div class="empty-state">
+        <h3>No toys match that search.</h3>
+        <p>Try a different keyword or switch back to a broader category.</p>
+      </div>
+    } @else {
+      <div class="product-grid">
+        @for (product of visibleProducts(); track product.id) {
+          <app-product-card
+            [product]="product"
+            [canDelete]="auth.currentUser()?.role === 'admin' || auth.currentUser()?.email === 'admin@tumbletoybox.com'"
+            (addToCart)="handleAddToCart($event)"
+            (buyNow)="handleBuyNow($event)"
+            (deleteProduct)="deleteProduct($event)"
+          ></app-product-card>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+@if (toastProduct(); as p) {
+  <div class="toast" role="status">
+    <strong>{{ p.name }}</strong> was added to your cart.
+  </div>
+}

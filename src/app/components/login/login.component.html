@@ -1,0 +1,49 @@
+<section class="auth-shell">
+  <div class="auth-card">
+    <h1>Welcome back</h1>
+    <p class="auth-sub">Log in to check out and track your orders.</p>
+
+    @if (errorMessage(); as msg) {
+      <div class="auth-alert">{{ msg }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          [class.invalid]="form.controls.email.invalid && form.controls.email.touched"
+          placeholder="you@example.com"
+          autocomplete="email"
+        />
+        @if (form.controls.email.invalid && form.controls.email.touched) {
+          <small class="error">Enter a valid email address.</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          [class.invalid]="form.controls.password.invalid && form.controls.password.touched"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+          <small class="error">Password is required.</small>
+        }
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting()">
+        {{ submitting() ? 'Logging in…' : 'Log in' }}
+      </button>
+    </form>
+
+    <p class="auth-note">Normal users can create a customer account here. Admin demo: admin&#64;tumbletoybox.com / admin123</p>
+    <p class="auth-footer">New here? <a routerLink="/register">Create an account</a></p>
+  </div>
+</section>

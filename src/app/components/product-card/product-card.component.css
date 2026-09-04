@@ -1,0 +1,136 @@
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-toy);
+  height: 100%;
+}
+
+.product-visual {
+  position: relative;
+  height: 168px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-visual a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.product-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-title-link:hover {
+  color: #2f6fea;
+}
+
+.visual-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 5px 11px;
+  border-radius: 999px;
+  z-index: 2;
+}
+
+.blob {
+  position: absolute;
+  width: 112px;
+  height: 112px;
+}
+
+.visual-icon {
+  position: relative;
+  z-index: 1;
+}
+
+.product-body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.product-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.rating {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.product-body h3 {
+  font-size: 1.15rem;
+  margin-bottom: 2px;
+}
+
+.desc {
+  font-size: 0.88rem;
+  flex: 1;
+  margin-bottom: 12px;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.age {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--pink-deep);
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.buy-now-btn {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.delete-btn {
+  border: 1px solid #f7b7ba;
+  background: #fff3f3;
+  color: #a3353a;
+  font-weight: 700;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}

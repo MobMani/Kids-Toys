@@ -1,0 +1,54 @@
+<section class="page-shell">
+  <div class="container">
+    @if (order(); as o) {
+      <div class="section-heading">
+        <div>
+          <h2>Tracking order {{ o.id }}</h2>
+          <p>This updates automatically as your box makes its way to you.</p>
+        </div>
+        <span class="badge badge-mint">{{ o.status }}</span>
+      </div>
+
+      <div class="tracking-layout">
+        <div class="card timeline-card">
+          <ol class="timeline">
+            @for (status of statuses; track status) {
+              <li class="timeline-step" [class]="'step-' + stepState(status)">
+                <span class="step-dot" aria-hidden="true"></span>
+                <div class="step-body">
+                  <div class="step-head">
+                    <h4>{{ status }}</h4>
+                    @if (timeFor(status); as t) {
+                      <span class="step-time">{{ t }}</span>
+                    }
+                  </div>
+                  @if (noteFor(status); as note) {
+                    <p>{{ note }}</p>
+                  } @else if (stepState(status) === 'upcoming') {
+                    <p class="pending-note">Waiting to happen.</p>
+                  }
+                </div>
+              </li>
+            }
+          </ol>
+        </div>
+
+        <aside class="card side-card">
+          <h3>Order</h3>
+          <p>{{ o.items.length }} item(s) · ₹{{ o.total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</p>
+          <h3>Shipping to</h3>
+          <p class="address-block">
+            {{ o.address.fullName }}<br/>
+            {{ o.address.city }}, {{ o.address.state }} {{ o.address.postalCode }}
+          </p>
+          <a [routerLink]="['/orders', o.id]" class="btn btn-secondary btn-block">View full order</a>
+        </aside>
+      </div>
+    } @else {
+      <div class="card empty-note">
+        <p>We couldn't find that order in this browser session.</p>
+        <a routerLink="/" class="btn btn-primary">Back to shop</a>
+      </div>
+    }
+  </div>
+</section>

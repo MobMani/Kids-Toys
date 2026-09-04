@@ -1,0 +1,75 @@
+<section class="upload-shell">
+  <div class="upload-card">
+    <div class="upload-header">
+      <div>
+        <p class="eyebrow">Admin tools</p>
+        <h1>Upload a product</h1>
+      </div>
+      <a routerLink="/" class="btn btn-ghost">Back to shop</a>
+    </div>
+
+    @if (error()) {
+      <div class="upload-alert">{{ error() }}</div>
+    }
+
+    @if (success()) {
+      <div class="upload-success">{{ success() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field-grid">
+        <div class="field">
+          <label for="name">Product name</label>
+          <input id="name" type="text" formControlName="name" placeholder="Rainbow Rocket Train" />
+        </div>
+
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category" formControlName="category">
+            @for (category of categories; track category) {
+              <option [value]="category">{{ category }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="price">Price</label>
+          <input id="price" type="number" step="0.01" min="0.01" formControlName="price" />
+        </div>
+
+        <div class="field">
+          <label for="ageRange">Age range</label>
+          <input id="ageRange" type="text" formControlName="ageRange" placeholder="3–6 yrs" />
+        </div>
+
+        <div class="field">
+          <label for="stock">Stock</label>
+          <input id="stock" type="number" min="1" formControlName="stock" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" rows="5" formControlName="description" placeholder="Describe what makes this toy fun and durable."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="image">Product photo</label>
+        <input id="image" type="file" accept="image/*" (change)="onFileSelected($event)" />
+      </div>
+
+      @if (previewImage(); as image) {
+        <div class="preview-box">
+          <img [src]="image" alt="Product preview" />
+        </div>
+      }
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+          {{ submitting() ? 'Saving…' : 'Save product' }}
+        </button>
+        <button type="button" class="btn btn-ghost" (click)="goHome()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,105 @@
+@if (product; as product) {
+  <section class="product-page">
+    <div class="container product-layout">
+      <div class="gallery-panel">
+        <div class="main-media">
+          <img [src]="selectedImage || product.imageUrl" [alt]="product.name" />
+        </div>
+
+        <div class="thumb-row">
+          @for (image of galleryImages; track image) {
+            <button
+              type="button"
+              class="thumb-btn"
+              [class.active]="selectedImage === image"
+              (click)="selectImage(image)"
+            >
+              <img [src]="image" [alt]="product.name + ' detail view'" />
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="product-details">
+        <div class="crumbs">
+          <a routerLink="/">Home</a>
+          <span>/</span>
+          <span>{{ product.category }}</span>
+        </div>
+
+        <div class="detail-top-row">
+          <span class="category-pill">{{ product.category }}</span>
+          @if (product.badge) {
+            <span class="badge-pill">{{ product.badge }}</span>
+          }
+        </div>
+
+        <h1>{{ product.name }}</h1>
+
+        <div class="rating-row" aria-label="Rating summary">
+          <span class="rating-stars">★ {{ averageRating }}</span>
+          <span>{{ reviewCount }} reviews</span>
+        </div>
+
+        <div class="price-block">{{ formatPrice(product.price) }}</div>
+
+        <p class="description">{{ product.description }}</p>
+
+        @if (product.features?.length) {
+          <div class="feature-list">
+            @for (feature of product.features; track feature) {
+              <div class="feature-item">✓ {{ feature }}</div>
+            }
+          </div>
+        }
+
+        <div class="action-row">
+          <button type="button" class="btn btn-primary" (click)="addToCart()" [disabled]="product.stock === 0">
+            {{ product.stock === 0 ? 'Out of stock' : 'Add to cart' }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="buyNow()" [disabled]="product.stock === 0">
+            {{ product.stock === 0 ? 'Sold out' : 'Buy now' }}
+          </button>
+        </div>
+
+        <div class="detail-meta">
+          <span>In stock: {{ product.stock }}</span>
+          <span>Suitable for {{ product.ageRange }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container review-section">
+      <div class="section-header">
+        <h2>Customer reviews</h2>
+        <div class="rating-summary">
+          <span class="summary-score">{{ averageRating }}</span>
+          <span>out of 5</span>
+        </div>
+      </div>
+
+      @if (product.reviews?.length) {
+        <div class="review-list">
+          @for (review of product.reviews; track review.author + review.comment) {
+            <article class="review-card">
+              <div class="review-header">
+                <strong>{{ review.author }}</strong>
+                <span>{{ '★'.repeat(review.rating) }}{{ '☆'.repeat(5 - review.rating) }}</span>
+              </div>
+              <p>{{ review.comment }}</p>
+            </article>
+          }
+        </div>
+      } @else {
+        <p class="empty-reviews">No reviews yet. Be the first to share your thoughts.</p>
+      }
+    </div>
+  </section>
+} @else {
+  <section class="not-found">
+    <div class="container center">
+      <h1>Product not found</h1>
+      <a class="btn btn-primary" routerLink="/">Return home</a>
+    </div>
+  </section>
+}

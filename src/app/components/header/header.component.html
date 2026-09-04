@@ -1,0 +1,43 @@
+<header class="site-header">
+  <div class="container bar">
+    <a routerLink="/" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="34" height="34">
+          <circle cx="24" cy="24" r="22" fill="#FFC53D" />
+          <circle cx="16" cy="20" r="6" fill="#FF6FA0" />
+          <circle cx="32" cy="20" r="6" fill="#4FAFE0" />
+          <circle cx="24" cy="32" r="6" fill="#2FBF9F" />
+        </svg>
+      </span>
+      <span class="brand-name">Tumble<span class="brand-name-accent">Toy Box</span></span>
+    </a>
+
+    <nav class="main-nav" aria-label="Primary">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Shop</a>
+    </nav>
+
+    <div class="header-actions">
+      @if (auth.currentUser(); as user) {
+        <span class="hello">Hi, {{ user.fullName.split(' ')[0] }}</span>
+        @if (user.role === 'admin' || user.email === 'admin@tumbletoybox.com') {
+          <a routerLink="/upload-products" class="btn btn-ghost">Upload list</a>
+        }
+        <button class="btn btn-ghost" type="button" (click)="logout()">Log out</button>
+      } @else {
+        <a routerLink="/login" class="btn btn-ghost">Log in</a>
+        <a routerLink="/register" class="btn btn-secondary">Sign up</a>
+      }
+
+      <a routerLink="/cart" class="cart-link" aria-label="View cart">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="21" r="1.4" fill="currentColor"/>
+          <circle cx="18" cy="21" r="1.4" fill="currentColor"/>
+        </svg>
+        @if (cart.itemCount() > 0) {
+          <span class="cart-count">{{ cart.itemCount() }}</span>
+        }
+      </a>
+    </div>
+  </div>
+</header>

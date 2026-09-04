@@ -1,0 +1,78 @@
+<section class="auth-shell">
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="auth-sub">Save addresses and track every toy box on its way to you.</p>
+
+    @if (errorMessage(); as msg) {
+      <div class="auth-alert">{{ msg }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field">
+        <label for="fullName">Full name</label>
+        <input
+          id="fullName"
+          type="text"
+          formControlName="fullName"
+          [class.invalid]="form.controls.fullName.invalid && form.controls.fullName.touched"
+          placeholder="Jordan Rivera"
+          autocomplete="name"
+        />
+        @if (form.controls.fullName.invalid && form.controls.fullName.touched) {
+          <small class="error">Enter your name.</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          [class.invalid]="form.controls.email.invalid && form.controls.email.touched"
+          placeholder="you@example.com"
+          autocomplete="email"
+        />
+        @if (form.controls.email.invalid && form.controls.email.touched) {
+          <small class="error">Enter a valid email address.</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          [class.invalid]="form.controls.password.invalid && form.controls.password.touched"
+          placeholder="At least 6 characters"
+          autocomplete="new-password"
+        />
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+          <small class="error">Password needs at least 6 characters.</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="confirmPassword">Confirm password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          [class.invalid]="form.errors?.['mismatch'] && form.controls.confirmPassword.touched"
+          placeholder="Re-enter password"
+          autocomplete="new-password"
+        />
+        @if (form.errors?.['mismatch'] && form.controls.confirmPassword.touched) {
+          <small class="error">Passwords don't match.</small>
+        }
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting()">
+        {{ submitting() ? 'Creating account…' : 'Create account' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">Already have an account? <a routerLink="/login">Log in</a></p>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+.site-footer {
+  background: var(--ink);
+  color: var(--cream);
+  padding-top: 48px;
+}
+.site-footer .brand-name { color: var(--white); font-size: 1.2rem; }
+.site-footer .brand-name-accent { color: var(--yellow); }
+.site-footer p { color: rgba(255,249,238,0.72); }
+.site-footer h4 { color: var(--white); font-family: var(--font-display); margin-bottom: 10px; }
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 32px;
+  padding-block: 8px 32px;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.14);
+  padding-block: 18px;
+  font-size: 0.85rem;
+  color: rgba(255,249,238,0.6);
+}
+
+@media (max-width: 720px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}

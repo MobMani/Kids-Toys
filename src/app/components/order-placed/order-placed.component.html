@@ -1,0 +1,34 @@
+<section class="page-shell">
+  <div class="container">
+    @if (order(); as o) {
+      <div class="confirm-card card">
+        <div class="confirm-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="11" fill="#2FBF9F"/>
+            <path d="M7 12.5l3 3 7-7.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="badge badge-mint">Order confirmed</span>
+        <h1>Thanks — your toy box is in the queue!</h1>
+        <p>Order <strong>{{ o.id }}</strong> was placed and a confirmation was sent to your inbox.</p>
+
+        <div class="confirm-total">
+          <span>Total charged</span>
+          <strong>₹{{ o.total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</strong>
+        </div>
+
+        <div class="confirm-actions">
+          <a [routerLink]="['/orders', o.id]" class="btn btn-secondary">View order details</a>
+          <a [routerLink]="['/orders', o.id, 'tracking']" class="btn btn-primary">Track this order</a>
+        </div>
+        <a routerLink="/" class="continue-link">Continue shopping</a>
+      </div>
+    } @else {
+      <div class="confirm-card card">
+        <h1>We couldn't find that order</h1>
+        <p>It may have been placed in a different browser session.</p>
+        <a routerLink="/" class="btn btn-primary">Back to shop</a>
+      </div>
+    }
+  </div>
+</section>

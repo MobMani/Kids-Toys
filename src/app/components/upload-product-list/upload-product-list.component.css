@@ -1,0 +1,131 @@
+.upload-shell {
+  padding: 52px 24px 72px;
+  min-height: calc(100dvh - 250px);
+  background: linear-gradient(180deg, var(--cream-deep), var(--cream));
+}
+
+.upload-card {
+  max-width: 780px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-toy);
+  padding: 28px;
+}
+
+.upload-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pink-deep);
+}
+
+.upload-card h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
+
+.upload-alert,
+.upload-success {
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+.upload-alert {
+  background: rgba(255,122,90,0.12);
+  color: #ae442b;
+}
+
+.upload-success {
+  background: rgba(47,191,159,0.12);
+  color: #1d7c59;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.field label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: inherit;
+  background: var(--cream);
+  color: var(--ink);
+  box-sizing: border-box;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.preview-box {
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 10px;
+  background: var(--cream);
+}
+
+.preview-box img {
+  display: block;
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .upload-card {
+    padding: 22px 18px;
+  }
+
+  .upload-header,
+  .field-grid {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .upload-header {
+    align-items: start;
+  }
+}
