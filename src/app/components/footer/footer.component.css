@@ -1,19 +1,44 @@
 .site-footer {
-  background: var(--ink);
+  position: relative;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 111, 160, 0.25), transparent 35%),
+    radial-gradient(circle at 90% 100%, rgba(79, 175, 224, 0.22), transparent 40%),
+    var(--ink);
   color: var(--cream);
-  padding-top: 48px;
+  padding-top: 64px;
+  margin-top: 40px;
 }
-.site-footer .brand-name { color: var(--white); font-size: 1.2rem; }
-.site-footer .brand-name-accent { color: var(--yellow); }
-.site-footer p { color: rgba(255,249,238,0.72); }
-.site-footer h4 { color: var(--white); font-family: var(--font-display); margin-bottom: 10px; }
+/* Scalloped top edge, like the lid of a toy box */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -23px;
+  height: 24px;
+  background: var(--ink);
+  -webkit-mask: radial-gradient(circle at 50% 100%, #000 23px, transparent 24px) 0 0 / 48px 24px repeat-x;
+  mask: radial-gradient(circle at 50% 100%, #000 23px, transparent 24px) 0 0 / 48px 24px repeat-x;
+}
+.site-footer .brand-name {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: var(--white);
+}
+.site-footer .brand-name-accent { color: var(--yellow); margin-left: 4px; }
+.site-footer p { color: rgba(255,249,238,0.72); line-height: 1.9; }
+.site-footer h4 { color: var(--white); font-family: var(--font-display); margin-bottom: 10px; font-size: 1.15rem; }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: clamp(24px, 5vw, 80px);
   padding-block: 8px 32px;
 }
+.footer-grid > div:first-child p { max-width: 42ch; }
 
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.14);

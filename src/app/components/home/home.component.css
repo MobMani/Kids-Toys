@@ -1,18 +1,79 @@
 .hero {
-  padding-block: 64px 40px;
-  background: linear-gradient(180deg, var(--cream-deep), var(--cream) 75%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: min(calc(100dvh - var(--header-h) - 150px), 820px);
+  padding-block: clamp(40px, 6vw, 88px);
+  background:
+    radial-gradient(circle at 85% 30%, rgba(79, 175, 224, 0.22), transparent 38%),
+    radial-gradient(circle at 15% 85%, rgba(255, 111, 160, 0.2), transparent 40%),
+    linear-gradient(180deg, var(--cream-deep), transparent);
+}
+
+/* Confetti shapes drifting behind the hero */
+.hero::before,
+.hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: hero-float 7s ease-in-out infinite;
+}
+.hero::before {
+  width: 140px;
+  height: 140px;
+  top: 8%;
+  left: 46%;
+  background: radial-gradient(circle at 30% 30%, #FFE08A, var(--yellow));
+  opacity: 0.55;
+}
+.hero::after {
+  width: 70px;
+  height: 70px;
+  bottom: 12%;
+  left: 44%;
+  border-radius: 20px;
+  background: var(--mint);
+  opacity: 0.35;
+  animation-delay: -3s;
 }
 
 .hero-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   align-items: center;
-  gap: 40px;
+  gap: clamp(32px, 5vw, 96px);
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+.hero-eyebrow i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 0 4px rgba(47, 191, 159, 0.25);
 }
 
 .hero-copy h1 {
   font-size: var(--step-1);
+  font-weight: 800;
   max-width: 11ch;
+  letter-spacing: -1px;
 }
 
 .hero-underline {
@@ -33,7 +94,7 @@
 }
 
 .hero-sub {
-  font-size: 1.08rem;
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem);
   max-width: 46ch;
   margin-bottom: 28px;
 }
@@ -50,11 +111,34 @@
   flex-direction: column;
   line-height: 1.2;
 }
-.hero-stat strong { font-family: var(--font-display); font-size: 1.2rem; }
+.hero-stat {
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-soft);
+}
+.hero-stat strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--pink-deep); }
 .hero-stat span { font-size: 0.82rem; color: var(--ink-soft); font-weight: 700; }
 
-.hero-art { display: flex; justify-content: center; }
-.hero-svg { width: 100%; max-width: 380px; height: auto; }
+.hero-actions .btn-primary { padding: 16px 34px; font-size: 1.1rem; }
+
+.hero-art {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.hero-art::before {
+  content: '';
+  position: absolute;
+  inset: 6% 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 70%);
+}
+.hero-svg { position: relative; width: 100%; max-width: 560px; height: auto; }
+.hero-svg .toy { transform-box: fill-box; transform-origin: center; animation: hero-float 6s ease-in-out infinite; }
+.hero-svg .toy-2 { animation-delay: -1.5s; }
+.hero-svg .toy-3 { animation-delay: -3s; }
+.hero-svg .toy-4 { animation-delay: -4.5s; }
 
 .promo-strip {
   overflow: hidden;
@@ -185,8 +269,8 @@
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: clamp(18px, 1.6vw, 28px);
 }
 
 .empty-state {
@@ -221,11 +305,18 @@
   .hero-copy h1 { max-width: none; margin-inline: auto; }
   .hero-sub { margin-inline: auto; }
   .hero-actions { justify-content: center; }
-  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero { min-height: 0; }
+  .hero-svg { max-width: 360px; }
 }
 
 @media (max-width: 560px) {
-  .product-grid { grid-template-columns: 1fr; }
+  .promo-item { min-width: 340px; }
+  .promo-item img { width: 88px; height: 88px; }
   .toolbar { align-items: stretch; }
   .search-box { width: 100%; }
+}
+
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(4deg); }
 }

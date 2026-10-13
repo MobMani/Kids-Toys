@@ -1,11 +1,11 @@
 .confirm-card {
-  max-width: 520px;
+  max-width: 600px;
   margin-inline: auto;
   text-align: center;
-  padding: 48px 40px;
+  padding: clamp(36px, 5vw, 64px) clamp(24px, 4vw, 56px);
 }
 .confirm-icon { margin-bottom: 14px; }
-.confirm-card h1 { font-size: 1.6rem; margin: 12px 0 8px; }
+.confirm-card h1 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.4rem); margin: 12px 0 8px; }
 .confirm-card .badge { margin-bottom: 6px; }
 
 .confirm-total {
@@ -30,3 +30,9 @@
 
 .continue-link { font-weight: 700; color: var(--ink-soft); }
 .continue-link:hover { color: var(--ink); }
+
+/* Centre the card in the full-height page */
+.page-shell {
+  display: flex;
+  align-items: center;
+}

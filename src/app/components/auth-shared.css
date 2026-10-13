@@ -1,27 +1,79 @@
 .auth-shell {
-  min-height: calc(100dvh - 320px);
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 56px 24px;
+  padding: clamp(40px, 6vw, 80px) var(--gutter);
   background:
-    radial-gradient(circle at 12% 20%, rgba(255,111,160,0.14), transparent 40%),
-    radial-gradient(circle at 88% 78%, rgba(79,175,224,0.16), transparent 42%),
-    var(--cream);
+    radial-gradient(circle at 12% 20%, rgba(255,111,160,0.22), transparent 38%),
+    radial-gradient(circle at 88% 78%, rgba(79,175,224,0.24), transparent 40%),
+    radial-gradient(circle at 70% 10%, rgba(255,197,61,0.22), transparent 30%);
+}
+
+/* Big soft toy shapes floating in the corners */
+.auth-shell::before,
+.auth-shell::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  animation: auth-float 8s ease-in-out infinite;
+}
+.auth-shell::before {
+  width: clamp(160px, 22vw, 320px);
+  aspect-ratio: 1;
+  top: 8%;
+  left: 6%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #FF9EC0, var(--pink));
+  opacity: 0.35;
+}
+.auth-shell::after {
+  width: clamp(120px, 16vw, 240px);
+  aspect-ratio: 1;
+  bottom: 8%;
+  right: 7%;
+  border-radius: 36px;
+  background: var(--grad-sky);
+  opacity: 0.3;
+  animation-delay: -4s;
+}
+
+@keyframes auth-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(8deg); }
 }
 
 .auth-card {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 420px;
-  background: var(--white);
+  max-width: 460px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-toy);
-  padding: 40px 36px;
+  box-shadow: var(--shadow-lift);
+  padding: 48px 40px 36px;
+  overflow: hidden;
+}
+.auth-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--pink), var(--yellow), var(--mint), var(--sky), var(--violet));
 }
 
 .auth-card h1 {
-  font-size: 1.7rem;
+  font-size: clamp(1.8rem, 1.5rem + 1vw, 2.3rem);
+  font-weight: 800;
   margin-bottom: 6px;
+}
+
+.auth-card .btn-primary { padding-block: 15px; font-size: 1.05rem; margin-top: 4px; }
+
+@media (max-width: 480px) {
+  .auth-card { padding: 40px 22px 28px; }
 }
 
 .auth-sub {

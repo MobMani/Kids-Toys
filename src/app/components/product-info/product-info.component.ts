@@ -25,6 +25,8 @@ export class ProductInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
+
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       return;

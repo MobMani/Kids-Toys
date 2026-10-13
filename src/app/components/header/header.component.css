@@ -1,16 +1,32 @@
-.site-header {
+/* Frozen header: the host is the sticky box, since sticky only holds within its parent */
+:host {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: var(--cream);
-  border-bottom: 2px solid var(--line);
+  display: block;
+}
+
+.site-header {
+  position: relative;
+  background: rgba(255, 249, 238, 0.78);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: 0 10px 30px -24px rgba(42, 33, 72, 0.6);
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--pink), var(--yellow), var(--mint), var(--sky), var(--violet));
 }
 
 .bar {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding-block: 14px;
+  min-height: var(--header-h);
+  padding-block: 12px;
 }
 
 .brand {
@@ -20,26 +36,40 @@
   margin-right: auto;
 }
 
+.brand-mark {
+  display: inline-flex;
+  transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1);
+}
+.brand:hover .brand-mark { transform: rotate(-18deg) scale(1.1); }
+
 .brand-name {
   font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 800;
   color: var(--ink);
+  letter-spacing: -0.2px;
 }
-.brand-name-accent { color: var(--pink-deep); }
+.brand-name-accent {
+  margin-left: 4px;
+  background: var(--grad-candy);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 .main-nav {
   display: flex;
-  gap: 20px;
+  gap: 8px;
 }
 .main-nav a {
-  font-weight: 700;
+  font-weight: 800;
   color: var(--ink-soft);
-  padding: 8px 4px;
-  border-bottom: 3px solid transparent;
+  padding: 8px 18px;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
 }
-.main-nav a.active,
-.main-nav a:hover { color: var(--ink); border-color: var(--yellow); }
+.main-nav a:hover { color: var(--ink); background: rgba(255, 197, 61, 0.3); }
+.main-nav a.active { color: var(--ink); background: var(--yellow); }
 
 .header-actions {
   display: flex;
@@ -48,10 +78,18 @@
 }
 
 .hello {
-  font-weight: 700;
+  font-weight: 800;
   color: var(--ink);
   margin-right: 4px;
   white-space: nowrap;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(47, 191, 159, 0.16);
+}
+
+.header-actions .btn-secondary {
+  padding: 9px 22px;
+  box-shadow: 3px 3px 0 var(--ink);
 }
 
 .cart-link {
@@ -59,35 +97,44 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  color: var(--ink);
-  background: var(--white);
-  border: 2px solid var(--line);
+  color: var(--white);
+  background: var(--ink);
   margin-left: 6px;
+  box-shadow: 0 10px 20px -10px rgba(42, 33, 72, 0.8);
+  transition: transform 0.2s ease, background 0.2s ease;
 }
-.cart-link:hover { border-color: var(--ink); }
+.cart-link:hover { transform: translateY(-2px) rotate(-6deg); background: var(--pink-deep); }
 
 .cart-count {
   position: absolute;
   top: -6px;
   right: -6px;
-  background: var(--pink-deep);
-  color: var(--white);
+  background: var(--yellow);
+  color: var(--ink);
   font-size: 0.7rem;
   font-weight: 800;
-  min-width: 20px;
-  height: 20px;
+  min-width: 22px;
+  height: 22px;
   border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-inline: 4px;
-  border: 2px solid var(--cream);
+  border: 2px solid var(--white);
+  animation: pop 0.35s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes pop {
+  from { transform: scale(0.4); }
+  to { transform: scale(1); }
 }
 
 @media (max-width: 720px) {
   .main-nav { display: none; }
   .hello { display: none; }
+  .brand-name { font-size: 1.2rem; }
+  .bar { gap: 10px; }
 }
